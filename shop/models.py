@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from mptt.models import MPTTModel, TreeForeignKey
 
 # Create your models here.
 
@@ -11,22 +12,15 @@ PaymentMethod = (
 )
 
 
-class Category(models.Model):
+class Category(MPTTModel):
     title = models.CharField(max_length=100)
+    parent = TreeForeignKey('self',on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
         return self.title
 
-
-class CategoryRelationship(models.Model):
-    parent_category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='parent')
-    child_category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='child', null=True, blank=True)
-
-    def __str__(self):
-        if self.child_category is not None:
-            return str(self.parent_category.title) + ' -> ' + str(self.child_category.title)
-        else:
-            return str(self.parent_category.title) + ' -> ' + 'None'
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
 
 class Product(models.Model): 
