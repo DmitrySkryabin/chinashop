@@ -1,0 +1,9 @@
+# images
+*.jpg
+*.png
+
+# venv
+/env
+
+# database
+*.sqlite3
