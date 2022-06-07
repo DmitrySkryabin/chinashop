@@ -7,3 +7,6 @@
 
 # database
 *.sqlite3
+*/migrations
+*/__pycache__
+*/*/__pycache__

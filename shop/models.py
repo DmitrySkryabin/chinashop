@@ -20,7 +20,7 @@ class Category(MPTTModel):
         return self.title
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['title']
 
 
 class Product(models.Model): 

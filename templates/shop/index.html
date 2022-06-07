@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for item in categorys %}
-
-        {{ item }}<br>
-
-    {% endfor %}
+{% load mptt_tags %}
+<ul>
+    {% recursetree categories %}
+        <li>
+            {{ node.title }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
 {% endblock %}
