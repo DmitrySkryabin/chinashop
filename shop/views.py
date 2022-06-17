@@ -6,6 +6,7 @@ from .models import Product, Category
 
 def index(request):
     context = {
-        'categories': Category.objects.all()
+        'categories': Category.objects.all(),
+        'category_root_count': 3
     }
     return render(request, 'shop/index.html', context)

@@ -2,16 +2,35 @@
 
 {% block content %}
 {% load mptt_tags %}
-<ul>
-    {% recursetree categories %}
-        <li>
-            {{ node.title }}
-            {% if not node.is_leaf_node %}
-                <ul class="children">
-                    {{ children }}
-                </ul>
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-3">
+            <ul class="list-group">
+                {% for category in categories %}
+                {% if category.level == 0 %}
+                <li class="list-group-item">{{ category.title }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% for category in categories %}
+        {% if category.level == 0 %}
+        <div class="col-6" id="collapseble-menu-{{c.id}}">
+            <h4>{{ category.title }}</h4>
+            {% for category2 in categories %}
+            {% if category2.level == 1 and category2.parent == category %}
+            <h6>{{ category2.title }}</h6>
+            {% for category3 in categories %}
+            {% if category3.level == 2 and category3.parent == category2 %}
+            <li>{{ category3.title }}</li>
             {% endif %}
-        </li>
-    {% endrecursetree %}
-</ul>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
