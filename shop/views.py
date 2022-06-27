@@ -1,6 +1,7 @@
+from itertools import product
 from unicodedata import category
 from django.shortcuts import render
-from .models import Product, Category
+from .models import Product, Category, ProductAttributeValue
 
 # Create your views here.
 
@@ -47,16 +48,28 @@ def index2(requset):
 
 
 def catalog_category(request, category_id):
-    categories = Category.objects.filter(parent__id=category_id).all()
     products = Product.objects.filter(category=category_id).all()
     
     if len(products) == 0:
+        categories = Category.objects.filter(parent__id=category_id).all()
         context = {
             'categories': categories,
         }
 
         return render(request, 'shop/catalog_category.html', context)
     else:
+        filters = {}
+        attributes = ProductAttributeValue.objects.filter(product__in=products)
+        for i, attribute in enumerate(attributes):
+            attribute_unity = attribute.attribute.title
+            filter_value = [attribute.value]
+            for i1, attribute1 in enumerate(attributes):
+                if attribute1.attribute.title == attribute_unity and i != i1:
+                    filter_value.append(attribute1.value)
+            filters.update({
+                attribute.attribute: sorted(list(set(filter_value)))
+            })
+        print(filters)
         context = {
             'products': products,
         }

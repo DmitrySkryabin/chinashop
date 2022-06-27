@@ -23,6 +23,13 @@ class Category(MPTTModel):
         order_insertion_by = ['title']
 
 
+class Attribute(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Product(models.Model): 
     name = models.CharField(max_length=200)
     image = models.ImageField()
@@ -34,6 +41,15 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductAttributeValue(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+    value = models.CharField(max_length=200)
+
+    def __str__(self):
+        return str(self.product) + '-' + str(self.attribute) + ':' + self.value
 
 
 class Address(models.Model):
