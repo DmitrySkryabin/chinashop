@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        {% for category in categories %}
+            {% if not category.is_leaf_node %}
+                <a href="{% url 'catalog_product' category.id %}">
+            <!-- {% else %}
+                <a href="{% url 'catalog_category' category.id %}">
+            {% endif %} -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.title }}</h5>
+                    <h6 class="card-subtitle">test</h6>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae atque pariatur
+                        molestias cum quis dicta.</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load mptt_tags %}
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-3">
+            <ul class="list-group">
+                {% for category in categories %}
+                {% if category.level == 0 %}
+                <li class="list-group-item" data-bs-toggle="collapse" data-bs-target="#collapseble-menu-{{category.id}}">{{ category.title }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% for category, category2 in categories.items %}
+            <div class="col-6 collapse" id="collapseble-menu-{{category.id}}">
+                <h5>{{ category.title }}</h5>
+                {% for categoty2_2, category3 in category2.items %}
+                    <h6><a href="{% url 'catalog_category' categoty2_2.id %}">{{ categoty2_2.title }}</a></h6>
+                    <ul>
+                    {% for item in category3 %}
+                    <li><a href="{% url 'catalog_category' item.id %}">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
