@@ -48,17 +48,19 @@ def index2(requset):
 
 def catalog_category(request, category_id):
     categories = Category.objects.filter(parent__id=category_id).all()
-    context = {
-        'categories': categories,
-    }
+    products = Product.objects.filter(category=category_id).all()
+    
+    if len(products) == 0:
+        context = {
+            'categories': categories,
+        }
 
-    return render(request, 'shop/catalog_category.html', context)
+        return render(request, 'shop/catalog_category.html', context)
+    else:
+        context = {
+            'products': products,
+        }
+        return render(request, 'shop/catalog_product.html', context)
+    
 
 
-def catalog_product(request, category_id):
-    products = Product.objects.filter(category__id=category_id).all()
-    context = {
-        'products': products
-    }
-
-    return render(request, 'shop/catalog_product.html', context)
