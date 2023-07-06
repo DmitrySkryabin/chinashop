@@ -38,13 +38,12 @@ def index2(requset):
                 category: cat2
             })
 
-    print(cat)
-    print(count)
     context = {
         'categories': cat,
     }
 
-    return render(requset, 'shop/index2.html', context)
+    #return render(requset, 'shop/index.html', context)
+    return render(requset, 'base.html', context)
 
 
 def catalog_category(request, category_id):
